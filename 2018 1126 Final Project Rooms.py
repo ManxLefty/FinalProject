@@ -1,4 +1,18 @@
 places = {}
+
+PC = input('Character Name:')
+hp = str(26)
+
+#this is where the player starts
+player_location = 'frontlawn'
+
+def characterinterface():
+    print('-'*len(PC) + '-'*6)
+    print('    Name:', PC)
+    print('      HP:', hp)
+    print('Location:', player_location)
+    print('-'*len(PC)+'-'*6)
+
 def make_place(name,description):
     #putting the room into the game
     #making the room:
@@ -14,8 +28,8 @@ def make_exit(from_room, to_room, description):
 make_place('frontlawn','You stare up at the creaky house.')
     
 make_place('entrancehall', '')
-make_place('pantry', '<blank>')
-make_place('closet', '<blank>')
+make_place('pantry', '')
+make_place('closet', 'Mothballs fly around the closet.')
 make_place('livingroom', '<blank>')
 make_place('dininghall', '<blank>')
 make_place('kitchen', '<blank>')
@@ -26,7 +40,7 @@ make_place('outpowerbox','')
 
 make_place('basementlanding', '')
 make_place('cellar', '')
-make_place('crypt', 'Why would anyone make something like this in a house? People are suppose to live here!')
+make_place('crypt', 'Why would anyone make something like this in a house? People are suppose to live here!')  
 make_place('furnaceroom', '')
 
 make_place('generalbedroom', '')
@@ -68,9 +82,9 @@ make_exit('livingroom', 'stairsnorth', 'Go up the stairs.')
 make_exit('dininghall', 'entrancehall', 'Go into the foyer.')
 make_exit('dininghall', 'kitchen', 'Go into the kitchen.')
 make_exit('dininghall', 'stairssouth', 'Go up the stairs')
-make_exit('kitchen', 'entrancehall', 'Go in to foyer.')
+make_exit('kitchen', 'entrancehall', 'Go into the foyer.')
 make_exit('kitchen', 'basementlanding', 'Go down the trap door.')
-make_exit('kitchen', 'dininghall', 'Go into the dining hall.')
+make_exit('kitchen', 'dininghall', 'Go to the dining hall.')
 make_exit('stairsnorth', 'livingroom', 'Go to the living room.')
 make_exit('stairsnorth', 'parlor', 'Go to the parlor.')
 make_exit('stairsnorth', 'hallway3rd', 'Go to the third floor.')
@@ -93,7 +107,7 @@ make_exit('hallway2nd', 'study', 'Go into the study.')
 make_exit('hallway2nd', 'parlor', 'Go into the parlor.')
 
 make_exit('hallway3rd', 'masterbedroomnorth', 'Go into the master bedroom on the right.')
-make_exit('hallway3rd', 'masterbedroomsouth', 'Go inot the master bedroom on the left.')
+make_exit('hallway3rd', 'masterbedroomsouth', 'Go into the master bedroom on the left.')
 make_exit('hallway3rd', 'generalbedroom', 'Go into the bedroom down the hall.')
 make_exit('hallway3rd', 'childrenbedroom', "Go into the children's bedroom.")
 make_exit('hallway3rd', 'guestbedroom', 'Go into the guest bedroom.')
@@ -102,10 +116,10 @@ make_exit('hallway3rd', 'bathroom3rd', 'Go into the bathroom.')
 make_exit('hallway3rd', 'stairsnorth', 'Go to the stairs.')
 make_exit('hallway3rd', 'stairssouth', 'Go to the stairs.')
 make_exit('masterbedroomnorth', 'hallway3rd', 'Go into the hallway.')
-make_exit('masterbedroomnorth', 'masterbathroomnorth', 'Go into the bathroom.')
-make_exit('masterbathroomnorth', 'masterbedroomnorth', 'Go into the bathroom.')
+make_exit('masterbedroomnorth', 'masterbathroomnorth', 'Go into the master bathroom.')
+make_exit('masterbathroomnorth', 'masterbedroomnorth', 'Go into the master bedroom.')
 make_exit('masterbedroomsouth', 'hallway3rd', 'Go into the hallway.')
-make_exit('masterbedroomsouth', 'masterbathroomsouth', 'Go into the master bedroom.')
+make_exit('masterbedroomsouth', 'masterbathroomsouth', 'Go into the master bathroom.')
 make_exit('masterbathroomsouth', 'masterbedroomsouth', 'Go into the master bedroom.')
 make_exit('generalbedroom', 'hallway3rd', 'Go into the hallway.')
 make_exit('childrenbedroom', 'hallway3rd', 'Go into the hallway.')
@@ -115,16 +129,16 @@ make_exit('bathroom3rd', 'hallway3rd', 'Go into the hallway.')
 
 make_exit('basementlanding', 'kitchen', 'Go back upstairs.')
 make_exit('basementlanding', 'cellar', 'Go into the cellar.')
-make_exit('basementlanding', 'crypt', 'Go inot the crypt.')
+make_exit('basementlanding', 'crypt', 'Go into the crypt.')
 make_exit('basementlanding', 'furnaceroom', 'Go into the boiler room.')
 make_exit('cellar', 'basementlanding', 'Leave the cellar.')
 make_exit('crypt', 'basementlanding', 'Leave the crypt.')
 make_exit('furnaceroom', 'basementlanding', 'Leave the boiler room.')
 
 make_exit('observatory', 'rooftop', 'Go out onto the roof.')
-make_exit('observatory', 'stairssouth', 'Go out onto the roof.')
-make_exit('rooftop', 'observatory', 'Go to the observatory.')
-make_exit('rooftop', 'tower', 'Go to the tower.')
+make_exit('observatory', 'stairssouth', 'Go down the stairs.')
+make_exit('rooftop', 'observatory', 'Go into the observatory.')
+make_exit('rooftop', 'tower', 'Go into the tower.')
 make_exit('tower', 'rooftop', 'Go out onto the roof.')
 make_exit('tower', 'stairsnorth', 'Go down the stairs.')
 
@@ -134,9 +148,7 @@ def ask_user_which_exit(exits):
         print(i+1, exits[i]['description'])
     choice = eval(input('Choose:'))
     return exits[choice-1]['target']
-        
-#this is where the player starts
-player_location = 'frontlawn'
+    player_location = ['target']
 
 def print_location_description():
     #print(player_location)
@@ -145,8 +157,25 @@ def print_location_description():
     exits = room['exits']
     #print(exits)
 
+def hp_change(hp):
+    if player_location == 'crypt' or 'masterbathroomnorth' or 'closet' or 'childrenbedroom':
+        hp = eval(hp)-4
+    elif player_location == 'celler' or 'pantry':
+        hp = eval(hp)+2
+    else:
+        hp = hp
+    return hp
+
+#def map(player_location):
+#    print(player_location)
+
 game_over = False
 while not game_over:
+    characterinterface()
+    map()
     print_location_description()
     player_location = ask_user_which_exit(places[player_location]['exits'])
-    print_location_description()
+    hp_change()
+    #print_location_description()
+
+#some of these things will not be needed, I'm just testing things out with if statements
