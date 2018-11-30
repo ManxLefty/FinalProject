@@ -10,6 +10,9 @@ from random import randint
 class Player:
   def __init__(self, name):
     self.name = name
+  def attack(self,opponent)
+    self.opponent = opponent
+    opponent.current_hp -=  0.5*self.attack_power
     
     
 class Juicebox(Player):
@@ -71,32 +74,53 @@ class Desdemona(Player):
 ##
 
 
+# Creating General Monster class
 class Monster:
     def __init__(self, room):
-  
+
     def attack(self, player):
         self.player = player
-        player.defend()
-    
-class Banshee(Monster):
+        player.current_hp -=  self.attack_power - 0.5*player.defensive_power
+
+# Super Easy monster
+class DustBunny(Monster):
     def __init__(self, room):
         super().__init__(room)
-
+        self.name = 'Dust Bunny'
+        self.attack_power = 1
+        self.hp = 5
+        
+# Easy monster
 class Ghost(Monster):
     def __init__(self, room):
         super().__init__(room)
-
+        self.name = 'Ghost'
+        self.attack_power=2
+        self.hp = 10
+# Medium monster
 class BatSwarm(Monster):
     def __init__(self, room):
         super().__init__(room)
+        self.name = 'Swarm of Bats'
+        self.attack_power = 3
+        self.hp = 20
 
+# Hard monster
+class Banshee(Monster):
+    def __init__(self, room):
+        super().__init__(room)
+        self.name = 'Banshee'
+        self.attack_power = 4
+        self.hp = 50
+
+# Final Boss
 class Armor(Monster):
     def __init__(self, room):
         super().__init__(room)
-      
-  
-
-
+        self.name = 'Enchanted Suit of Armor'
+        self.attack_power = 5
+        self.hp = 100
+        
 def character_choose():
     print("Choose a character!\n"
           "Your choices are:\n"
