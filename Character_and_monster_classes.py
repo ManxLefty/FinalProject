@@ -6,11 +6,13 @@
 import random
 from time import sleep
 
+# creating a Player class
 class Player:
   def __init__(self, name):
     self.name = name
     
   def attack(self,opponent):
+  '''Allows the player to attack an opponent'''
     self.opponent = opponent
     opponent.current_hp -=  int(0.5*random.randint(0,self.attack_power))
     
