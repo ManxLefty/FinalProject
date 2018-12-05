@@ -17,11 +17,14 @@ class Player:
     opponent.current_hp -=  int(0.5*random.randint(0,self.attack_power))
     
   def defend(self,opponent):
+    '''Allows the player to defend against an opponent'''
     self.opponent = opponent
-    self.current_hp-=int(random.randint(1,opponent.attack_power)/self.defensive_power)
+    #self.current_hp-=int(random.randint(1,opponent.attack_power)/self.defensive_power)
     self.current_hp += int(0.1*random.randint(0,self.defensive_power))
 
   def battle(self,opponent):
+    '''Creates a battle function that allows the player to interact with an opponent. The opponent will automatically attack the Player.
+    The Player can choose to attack or defend. Defending allows you to heal a random amount of health.'''
     print('A wild',opponent.name,'appeared')
     while self.current_hp>0 and opponent.current_hp>0:
         action = input('Enter \'A\' for attack or \'D\' for defend \n').upper()
@@ -49,7 +52,7 @@ class Player:
         else:
             print('Invalid choice')
     
-    
+# Player subclasses    
 class Juicebox(Player):
   def __init__(self, name):
     super().__init__(name)
@@ -89,11 +92,14 @@ class Desdemona(Player):
 # Creating General Monster class
 class Monster:
     def __init__(self, room):
+      '''Initializing Monster object''''
         self.room = room
     def attack(self, player):
+      '''Allows monster to attack the Player'''
         self.player = player
         player.current_hp -=  int(random.randint(1,self.attack_power) / (0.5*player.defensive_power))
 
+# Monster subclasses
 # Super Easy monster
 class DustBunny(Monster):
     def __init__(self, room):
@@ -140,6 +146,7 @@ class Armor(Monster):
         self.current_hp=self.max_hp
         
 def character_choose():
+  '''Allows the Player to choose a character. Then prints the character's stats.'''
     print("Choose a character!\n"
           "Your choices are:\n"
           "A. Desdemona Crowe\n"
