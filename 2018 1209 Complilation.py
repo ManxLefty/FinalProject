@@ -77,7 +77,7 @@ class Bones(Player):
         self.max_hp = 75
         self.current_hp = 75
         self.attack_power = 20
-        self.defensive_power = 5
+        self.defensive_power = 20
 
 
 class Desdemona(Player):
