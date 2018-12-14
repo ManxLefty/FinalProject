@@ -1,3 +1,12 @@
+#NOTES: add the sleep back in
+#change the armor power back
+#add in the opening graphic
+
+#ISSUES: 1. how to end the game 2. invalid room input calls empty rooms 
+
+
+
+
 import random
 from time import sleep
 places = {}
@@ -49,56 +58,11 @@ def opening_graphic():
     #create a window
     win = GraphWin("Escape from Alabastor Manor", WIDTH, HEIGHT)
 
-    #dustbunny
-    dustbunnyImage = Image(Point(300,300),"dustbunny.png")
-    dustbunnyImage.draw(win)
-    sleep(1)
-    win.close()
-
-    #create a window
-    win = GraphWin("Escape from Alabastor Manor", WIDTH, HEIGHT)
-
-    #swarm_of_bats
-    swarm_of_batsImage = Image(Point(300,300),"swarmofbats.png")
-    swarm_of_batsImage.draw(win)
-    sleep(1)
-    win.close()
-
-    #create a window
-    win = GraphWin("Escape from Alabastor Manor", WIDTH, HEIGHT)
-
-    #ghost
-    ghostImage = Image(Point(300,300),"ghost.png")
-    ghostImage.draw(win)
-    sleep(1)
-    win.close()
-
-    #create a window
-    win = GraphWin("Escape from Alabastor Manor", WIDTH, HEIGHT)
-
-    #banshee
-    bansheeImage = Image(Point(300,300),"banshee.png")
-    bansheeImage.draw(win)
-    sleep(1)
-    win.close()
-
-    #create a window
-    win = GraphWin("Escape from Alabastor Manor", WIDTH, HEIGHT)
-
-    #armor
-    armorImage = Image(Point(300,300),"armor.png")
-    armorImage.draw(win)
-    sleep(1)
-    win.close()
-
-    #create a window
-    win = GraphWin("Escape from Alabastor Manor", WIDTH, HEIGHT)
-
     #Manor Map
     ManorMapImage = Image(Point(300,300),"ManorMap.png")
     ManorMapImage.draw(win)
 
-opening_graphic()
+#opening_graphic()
 
 ################################################################################
 #THIS IS WHERE THE PLAYER STARTS
@@ -111,20 +75,24 @@ class Player:
         self.name = name
     
     def attack(self,opponent):
-    #'''Allows the player to attack an opponent'''
+        '''Allows the player to attack an opponent'''
         self.opponent = opponent
         opponent.current_hp -=  int(0.5*random.randint(0,self.attack_power))
     
     def defend(self,opponent):
-    #'''Allows the player to defend against an opponent'''
+        '''Allows the player to defend against an opponent'''
+    
         self.opponent = opponent
         #self.current_hp-=int(random.randint(1,opponent.attack_power)/self.defensive_power)
         self.current_hp += int(0.1*random.randint(0,self.defensive_power))
 
     def battle(self,opponent):
-    #'''Creates a battle function that allows the player to interact with an opponent. The opponent will automatically attack the Player.
-    #The Player can choose to attack or defend. Defending allows you to heal a random amount of health.'''
+        '''Creates a battle function that allows the player to interact with an opponent.
+        The opponent will automatically attack the Player. The Player can choose to attack or defend.
+        Defending allows you to heal a random amount of health.'''
+
         print('A wild',opponent.name,'appeared')
+        
         while self.current_hp>0 and opponent.current_hp>0:
             action = input('Enter \'A\' for attack or \'D\' for defend \n').upper()
             print('')
@@ -132,24 +100,38 @@ class Player:
                 print('You attack',opponent.name)
                 self.attack(opponent)
                 print(opponent.name,'HP:', opponent.current_hp,'/',opponent.max_hp,'\n')
-                sleep(1)
+                #sleep(0.5)
                 if opponent.current_hp<=0:
                     print('You have defeated',opponent.name)
-                else:
+                    print()#add a line of space so that it is easier to read terminal
+                elif opponent.current_hp <= 0 and opponent.name == 'Enchanted Suit of Armor':
+                    print("You defeated the Boss Monster!")
+                    print("You have won the game!")
+                    game_over = True
+                    return game_over 
+                elif opponent.current_hp >0:
                     opponent.attack(self)
-                    sleep(1)
+                    #sleep(0.5)
                     print(opponent.name,'attacked you!')
                     print(self.name,'HP:', self.current_hp,'/',self.max_hp,'\n')
-                    sleep(1)
+                    #sleep(0.5)
             
             elif action =='D':
                 self.defend(opponent)
                 print('You have defended against',opponent.name)
                 print(self.name,'HP:', self.current_hp,'/',self.max_hp,'\n')
+                
             else:
                 print('Invalid choice')
-    
-################################################################################
+
+
+        #to end the game
+        while self.current_hp <= 0 and opponent.current_hp >0:
+            #you are dead and the opponent defeated you
+            game_over = True
+            return game_over 
+
+
 # PLAYER SUBCLASS    
 class Juicebox(Player):
     def __init__(self, name):
@@ -253,24 +235,43 @@ def character_choose():
           "A. Desdemona Crowe\n"
           "B. Salem Bones\n"
           "C. Timmy a.k.a. 'Juicebox'")
-    choice = input("Choose A, B, or C: ").upper()
-    if choice == "A":
-          player = Desdemona(Player)
-          print("\nYou chose Desdemona Crowe!\n")
-    if choice == "B":
-          player = Bones(Player)
-          print("\nYou chose Salem Bones!\n")
-    if choice == "C":
-          player = Juicebox(Player)
-          print("\nYou chose Timmy!\n")
-          
-    print("Name:", player.name)
-    print("Description:", player.description)
-    print("Current HP:", player.max_hp)
-    print("Attack Power:", player.attack_power)
-    print("Defensive Power:", player.defensive_power)
 
-    return player
+    try: 
+
+        choice = input("Choose A, B, or C: ").upper()
+        while choice:    
+            if choice == "A":
+                  player = Desdemona(Player)
+                  print("\nYou chose Desdemona Crowe!\n")
+                  break
+            if choice == "B":
+                  player = Bones(Player)
+                  print("\nYou chose Salem Bones!\n")
+                  break
+            if choice == "C":
+                  player = Juicebox(Player)
+                  print("\nYou chose Timmy!\n")
+                  break
+            else:
+                break 
+      
+        print("Name:", player.name)
+        print("Description:", player.description)
+        print("Current HP:", player.max_hp)
+        print("Attack Power:", player.attack_power)
+        print("Defensive Power:", player.defensive_power)
+
+        return player
+
+
+    #if the user enters something that is not A, B, or C,
+    #then they will be asked for another input
+    except UnboundLocalError:
+        print()
+        print("Not a valid input.")
+        print()
+        character_choose()
+        
 
 ################################################################################
 #CHARACTER INTERFACE- JUST FOR REFERENCE
@@ -278,11 +279,7 @@ def characterinterface():
     print('-'*31)
     print('Location:', player_location)
     print('Inventory:', inventory)
-##    print("Name:", player.name)
-##    print("Description:", player.description)
-##    print("Current HP:", player.max_hp)
-##    print("Attack Power:", player.attack_power)
-##    print("Defensive Power:", player.defensive_power)
+    #I don't think we will have time to add the inventory code
     print('-'*31)
 
 ################################################################################
@@ -297,55 +294,14 @@ def make_exit(from_room, to_room, description):
     places[from_room]['exits'].append({'target': to_room,
                                        'description': description})
 
-################################################################################
-#INVENTORY ADDITIONS
-##def inventory_add():
-###find matches
-##    if player_location == 'kitchendrawer2':
-##        item = 'matches'
-##        if item not in inventory:
-##            print('You have found matches!')
-##            inventory.append('matches')
-##        else:
-##            print('You already have this item.')
-###find winebottle
-##    if player_location == 'cellerbottle4':
-##        item = 'wine bottle'
-##        if item not in inventory:
-##            print('You have found a wine bottle!')
-##            inventory.append('matches')
-##        else:
-##            print('You already have this item.')
-###find flash light
-##    if player_location == 'closet':
-##        item = 'flash light'
-##        if item in inventory:
-##            print('You already have this item.')
-##        else:
-##            inventory.append('flash light')
-##            print('You have found a flashlight!')
-###find batteries
-##    if player_location == 'outpowerbox':
-##        item = 'batteries'
-##        if item not in inventory:
-##            print('You have found batteries!')
-##            inventory.append('batteries')
-##        else:
-##            print('You already have this item.')
-###find key
-##    if player_location == 'librarybook3':
-##        item = 'key'
-##        if item not in inventory:
-##            print('You have found a key!')
-##            inventory.append('key')
-##        else:
-##            print('You already have this item.')
 
 ################################################################################
 #LIST OF ROOMS
+
 #OUTSIDE
 make_place('frontlawn','I stare up at the creaky house.')
 make_place('frontlawnlook','This street is dead and there is no one around. I wonder who lives in this house.')
+
 #GROUND FLOOR
 make_place('entrancehall', 'The door is locked and I don\'t have way out.')
 make_place('entrancehalllook', 'The furniture is very out dated.')
@@ -368,6 +324,7 @@ make_place('stairssouth','The stairs are covered with dust and the air is filled
 make_place('garden', 'It is probably really pretty out here, when it is not the middle of the winter.')
 make_place('gardenlook', 'Nothing of interest.')
 make_place('outpowerbox', 'Someone left some batteries!')
+
 #BASEMENT
 make_place('basementlanding', 'This is the basement.')
 make_place('basementlanding', 'I wish I had a light.')
@@ -385,6 +342,7 @@ make_place('cryptcoffin3', 'Doris Alabaster 1878')
 make_place('cryptcoffin4', 'Ronald Alabaster 1912')
 make_place('furnaceroom', 'It is hot in here, I hope nothing blows up.')
 make_place('furnaceroomlook', 'Nothing of interest.')
+
 #2ND FLOOR
 make_place('library', 'Wow! This is so big!')
 make_place('librarylook', 'There are a bunch of books on the table.')
@@ -396,6 +354,7 @@ make_place('parlorlook', 'Nothing of interest.')
 make_place('study', 'What important information is in the desk.')
 make_place('studylook', 'Nothing of interest.')
 make_place('hallway2nd', 'There are portraits lining the walls and their eyes seem to follow me. ')
+
 #TOP FLOOR
 make_place('tower', 'Wow, I feel like royalty.')
 make_place('towerlook', 'There are a lot of spider webs in here…')
@@ -405,12 +364,14 @@ make_place('telescope', 'Look! It is Mars! ')
 make_place('rooftop', 'Don’t look down. Don’t look down.')
 make_place('rooftoplook', 'Someone is waiting for you.')
 
-################################################################################
+
 #LISTS OF EXITS
+
 #OUTSIDE
 make_exit('frontlawn', 'entrancehall', 'Enter the house.')
 make_exit('frontlawn', 'frontlawnlook', 'Look around.')
 make_exit('frontlawnlook', 'frontlawn', 'I\'m done looking around.')
+
 #GROUND FLOOR
 make_exit('entrancehall', 'pantry', 'Go into the pantry on the right.')
 make_exit('entrancehall', 'closet', 'Go into the closet on the left.')
@@ -459,6 +420,7 @@ make_exit('garden', 'outpowerbox', 'Go check the power.')
 make_exit('garden', 'gardenlook', 'Look around.')
 make_exit('gardenlook', 'garden', 'I\'m done looking around.')
 make_exit('outpowerbox', 'garden', 'Go back outside.')
+
 #2ND FLOOR
 make_exit('study', 'hallway2nd', 'Go into the hallway.')
 make_exit('study', 'stairssouth', 'Go to the stairs.')
@@ -505,6 +467,7 @@ make_exit('cryptlook', 'cryptcoffin4', 'Coffin 4.')
 make_exit('cryptcoffin4', 'cryptlook', 'Look at something else.')
 make_exit('furnaceroom', 'furnaceroomlook', 'Look around.')
 make_exit('furnaceroomlook', 'furnaceroom', 'I\'m done looking around.')
+
 #TOP FLOOR
 make_exit('observatory', 'stairssouth', 'Go down the stairs.')
 make_exit('observatory', 'observatorylook', 'Look around.')
@@ -520,23 +483,107 @@ make_exit('tower', 'rooftop', 'Go out onto the roof.')
 make_exit('observatory', 'rooftop', 'Go out onto the roof.')
 
 ################################################################################
-#GAMEPLAY- WHICH EXIT AND LOCATION DESCRIPTION
+#INVENTORY ADDITIONS
+def inventory_add():
+#find matches
+    if player_location == 'kitchendrawer2':
+        item = 'matches'
+        if item not in inventory:
+            print('You have found matches!')
+            inventory.append('matches')
+        else:
+            print('You already have this item.')
+#find winebottle
+    if player_location == 'cellerbottle4':
+        item = 'wine bottle'
+        if item not in inventory:
+            print('You have found a wine bottle!')
+            inventory.append('matches')
+        else:
+            print('You already have this item.')
+#find flash light
+    if player_location == 'closet':
+        item = 'flash light'
+        if item in inventory:
+            print('You already have this item.')
+        else:
+            inventory.append('flash light')
+            print('You have found a flashlight!')
+#find batteries
+    if player_location == 'outpowerbox':
+        item = 'batteries'
+        if item not in inventory:
+            print('You have found batteries!')
+            inventory.append('batteries')
+        else:
+            print('You already have this item.')
+#find key
+    if player_location == 'librarybook3':
+        item = 'key'
+        if item not in inventory:
+            print('You have found a key!')
+            inventory.append('key')
+        else:
+            print('You already have this item.')
+
+################################################################################
+#GAMEPLAY - EXIT AND LOCATION DESCRIPTION
 def ask_user_which_exit(exits):
-    print('Options:')
-    for i in range(len(exits)):
-        print(i+1, exits[i]['description'])
-    choice = eval(input('Choose:'))
-    return exits[choice-1]['target']
-    player_location = ['target']
+        
+    try:
+        print('Options:')
+        for i in range(len(exits)):
+            print(i+1, exits[i]['description'])
+        choice = eval(input('Choose:'))
+        
+        player_location = ['target']
+        return exits[choice-1]['target']
+        #player_location = ['target']
+
+    except TypeError:
+        print()
+        print("Not a valid input. Try again.")
+        print()
+        ask_user_which_exit(exits)
+        print_location_description()
+
+    #exception if player enters a number out of range     
+    except IndexError:
+        print()
+        print("Not a valid input. Try again.")
+        print()
+        ask_user_which_exit(exits)
+        print_location_description()
+
+    #exception if player enters a letter instead of a number
+    except NameError:
+        print()
+        print("Not a valid input. Try again.")
+        print()
+        ask_user_which_exit(exits)
+        print_location_description()
+
+    #exception if player presses enter without writing anything first 
+    except SyntaxError:
+        print()
+        print("Not a valid input. Try again.")
+        print()
+        ask_user_which_exit(exits)
+        print_location_description()
 
 def print_location_description():
+
+     
     #print(player_location)
     room = places[player_location]
     print(room['description'])
     exits = room['exits']
     #print(exits)
 
-################################################################################
+
+    #gives a KeyError: None - not sure how to fix this one 
+    
+
 #RIDDLE
 def riddle():
     complete_riddle = {'riddle':'answer'}
@@ -568,6 +615,7 @@ def riddle():
             counter += 1
         elif user_answer != answer and counter >= 2:
             print("Wrong answer and you are out of tries...")
+            print("GAME OVER")
             game_over = True
             return game_over
             break
@@ -582,6 +630,8 @@ def room_rejection():
     if 'key' in inventory:
         make_exit('tower', 'rooftop', 'Go out onto the roof.')
         make_exit('observatory', 'rooftop', 'Go out onto the roof.')
+
+#I don't think there is enough time to incorporate this in the code.
 
 ################################################################################
 #MONSTER AND RIDDLE ROOMS
@@ -603,10 +653,12 @@ def monster_rooms():
         if player_location == 'cryptcoffin4':
             banshee = Banshee('room')
             player.battle(banshee)
-        if player_location == 'tower':
+        if player_location == 'rooftop':
             armor = Armor('room')
             player.battle(armor)
+            print ("The game has ended")    #make a game_over function 
             game_over = True
+            return game_over
                 
 def riddle_rooms():
     if player_location == 'cellar' or 'library' or 'observatory':
@@ -634,17 +686,27 @@ def riddle_rooms():
 
 ################################################################################
 #END OF GAME
+
 game_over = False
 player=character_choose()
-while not game_over:
+
+while game_over == False:
     characterinterface()
     riddle_rooms()
     monster_rooms()
     print_location_description()
-    #inventory_add()
-    #room_rejection()
+    inventory_add()
+    room_rejection()
     player_location = ask_user_which_exit(places[player_location]['exits'])
-print("You have completed the game! Thank you!")
+
+while game_over == True:
+    print("You have completed the game! Thank you!")
+
+#def game_over():
+ #   print("You have completed the game! Thank you!")
+
+
+
 
 
     
