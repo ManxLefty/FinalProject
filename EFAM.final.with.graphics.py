@@ -84,7 +84,10 @@ class Player:
     
         self.opponent = opponent
         #self.current_hp-=int(random.randint(1,opponent.attack_power)/self.defensive_power)
-        self.current_hp += int(0.1*random.randint(0,self.defensive_power))
+        if self.current_hp!=self.max_hp:
+            self.current_hp += int(0.1*random.randint(0,self.defensive_power))
+
+            
 
     def battle(self,opponent):
         '''Creates a battle function that allows the player to interact with an opponent.
@@ -94,13 +97,13 @@ class Player:
         print('A wild',opponent.name,'appeared')
         
         while self.current_hp>0 and opponent.current_hp>0:
-            action = input('Enter \'A\' for attack or \'D\' for defend \n').upper()
+            action = input('Enter \'A\' for attack or \'D\' for defend or \'HELP\' if you need help\n').upper()
             print('')
             if action == 'A':
                 print('You attack',opponent.name)
                 self.attack(opponent)
                 print(opponent.name,'HP:', opponent.current_hp,'/',opponent.max_hp,'\n')
-                #sleep(0.5)
+                sleep(0.5)
                 if opponent.current_hp<=0:
                     print('You have defeated',opponent.name)
                     print()#add a line of space so that it is easier to read terminal
@@ -111,15 +114,23 @@ class Player:
                     return game_over 
                 elif opponent.current_hp >0:
                     opponent.attack(self)
-                    #sleep(0.5)
+                    sleep(0.5)
                     print(opponent.name,'attacked you!')
                     print(self.name,'HP:', self.current_hp,'/',self.max_hp,'\n')
                     #sleep(0.5)
-            
+        
             elif action =='D':
                 self.defend(opponent)
                 print('You have defended against',opponent.name)
                 print(self.name,'HP:', self.current_hp,'/',self.max_hp,'\n')
+
+            elif action =='HELP':
+                print('''You are now in combat. Your objective is to attack your opponent
+until their HP (Hit Points) drop to zero. Be careful about your own
+HP, because if it drops to zero, game over! Type 'A' and hit enter
+to attack and type 'D' and hit enter to defend. If you defend, you
+do not take damage and have a chance to heal, based on your
+character's stats \n''')
                 
             else:
                 print('Invalid choice')
@@ -137,11 +148,13 @@ class Juicebox(Player):
     def __init__(self, name):
         super().__init__(name)
         self.name = "Timmy a.k.a. 'Juicebox'"
-        self.description = ("Timmy, nicknamed 'Juicebox' at school for his perpetual possession of a juicebox, "
-        "typically of grape flavour.  Timmy was dared by his friends to enter this spooky house.  They sent him "
-        "with a flashlight, thank goodness.  However, to Timmy's great dismay, he flips the switch as the door slams " 
-        "behind him and the flashlight hardly flickers before burning out.  Timmy feels panic rise up in his throat " 
-        "but he swallows it with the conviction that this will impress other kids enough that they might want to be friends with him.")
+        self.description = ('''Timmy was given the nickname 'Juicebox' at school for
+his perpetual possession of a juicebox, typically of grape flavor.
+Timmy was dared by his friends to enter this spooky house. They
+sent him with a flashlight, thank goodness. He hopes it will come
+in handy later. He can't wait for all the other kids to ask him
+about how he escaped Alabastor Manor... he just hopes he can make
+it out.5''')
         self.max_hp = 50
         self.current_hp = 50
         self.attack_power = 20
@@ -152,7 +165,15 @@ class Bones(Player):
     def __init__(self, name):
         super().__init__(name)
         self.name = "Salem Bones"
-        self.description = "An intimidating witch, though small in stature.  Dapper clothes."
+        self.description = ('''Salem is an intimidating witch, though small in stature.
+They regularly dress in a casual wool suit when the weather
+permits. Their familiar, a leopard gecko named Cliffton, clings
+to their lapel. Salem has sensed a strong field of arcane magic
+coming from the mansion ever since they were a k
+id. Now, with
+wand in hand and Cliffton hanging on for dear life, they feel
+strong enough to defeat the magic that has been in control of the
+manor all these years.''')
         self.max_hp = 75
         self.current_hp = 75
         self.attack_power = 20
@@ -163,7 +184,12 @@ class Desdemona(Player):
     def __init__(self, name):
         super().__init__(name)
         self.name = "Desdemona Crowe"
-        self.description = "A tall, thin, misty woman who almost seems to fade when you break focus on her."
+        self.description = ('''Desdemona had worked as the Alabastor governess for as
+long as she could remember. A freak accident took her life many
+years ago, and she only recently decided to revisit her home
+for so many years, even if its inhabitants are long gone.
+At least she can reconvene with the ghosts of all the people
+she cared for when they were young.''' )
         self.max_hp = 40
         self.current_hp = 40
         self.attack_power = 30
@@ -180,6 +206,17 @@ class Monster:
         player.current_hp -=  int(random.randint(1,self.attack_power) / (0.5*player.defensive_power))
 
 ################################################################################
+
+# Creating General Monster class
+class Monster:
+    def __init__(self, room):
+    #'''Initializing Monster object''''
+        self.room = room
+    def attack(self, player):
+    #'''Allows monster to attack the Player'''
+        self.player = player
+        player.current_hp -=  int(random.randint(1,self.attack_power) / (0.5*player.defensive_power))
+
 #MONSTER SUBCLASSES
 # Super Easy monster
 class DustBunny(Monster):
@@ -238,28 +275,54 @@ def character_choose():
 
     try: 
 
-        choice = input("Choose A, B, or C: ").upper()
+        choice = input("Choose 'A', 'B', 'C', or 'HELP' if you're not sure what to do: ").upper()
         while choice:    
             if choice == "A":
                   player = Desdemona(Player)
-                  print("\nYou chose Desdemona Crowe!\n")
+                  print("\nYou chose Desdemona!")
                   break
             if choice == "B":
                   player = Bones(Player)
-                  print("\nYou chose Salem Bones!\n")
+                  print("\nYou chose Salem!")
                   break
             if choice == "C":
                   player = Juicebox(Player)
-                  print("\nYou chose Timmy!\n")
+                  print("\nYou chose Timmy!")
+                  break
+            if choice == 'HELP':
+                  print('''Welcome to the game! Choose a character by typing the corresponding
+letter and hitting enter. Once you choose a character, you will be immersed
+in the world of 'ESCAPE FROM ALABASTOR MANOR,' where you will be faced with
+many life-and-death decisions.
+
+NAVIGATION
+When navigating through the mansion, a list of
+exits from the room you are currently in will appear in a numbered list. Type
+the number of the exit you would like to go through and hit enter. Some rooms
+require you to answer a riddle to move into the room, and others put you
+against an enemy that calls the mansion home.
+
+RIDDLES
+Type your guess and hit enter.Beware: you only have 3 tries per riddle to
+get it right, otherwise it's game over!
+
+BATTLING
+You have the choice to attack your opponent or defend against your opponent's
+attack. If you attack, you deal a random fraction of your character's Attack
+Power in damage. If you defend, you regain a random fraction of your
+character's Defensive Power back as HP.
+Attack = Deal damage
+Defend = Heal yourself''')
                   break
             else:
                 break 
-      
+        print('')
         print("Name:", player.name)
         print("Description:", player.description)
         print("Current HP:", player.max_hp)
         print("Attack Power:", player.attack_power)
         print("Defensive Power:", player.defensive_power)
+        print('')
 
         return player
 
@@ -272,6 +335,7 @@ def character_choose():
         print()
         character_choose()
         
+
 
 ################################################################################
 #CHARACTER INTERFACE- JUST FOR REFERENCE
@@ -614,11 +678,9 @@ def riddle():
             user_answer = input("Your answer: ")
             counter += 1
         elif user_answer != answer and counter >= 2:
-            print("Wrong answer and you are out of tries...")
-            print("GAME OVER")
-            game_over = True
-            return game_over
-            break
+            print("Wrong answer and you are out of tries... \n")
+            return True
+    
 
 ################################################################################
 #INVENTORY NEEDED TO ENTER ROOM
@@ -636,7 +698,6 @@ def room_rejection():
 ################################################################################
 #MONSTER AND RIDDLE ROOMS
 def monster_rooms():
-    counter = 0
     if player_location == 'entrancehall' or 'crypt' or 'parlor' or 'stairssouth' 'cryptcoffin4' or 'tower':
         if player_location == 'entrancehall':
             dustbunny = DustBunny('room')
@@ -656,11 +717,17 @@ def monster_rooms():
         if player_location == 'rooftop':
             armor = Armor('room')
             player.battle(armor)
-            print ("The game has ended")    #make a game_over function 
-            game_over = True
-            return game_over
+            if player.current_hp<=0:
+                    return True
+            if armor.current_hp<=0:
+                    return True
+             
+##    if player.current_hp<=0:
+##        print('Game Over')
+##        break
                 
-def riddle_rooms():
+def riddle_rooms(riddle_wrong):
+    riddle_wrong = riddle_wrong
     if player_location == 'cellar' or 'library' or 'observatory':
         counter = 0
         if player_location == 'cellar':
@@ -668,47 +735,59 @@ def riddle_rooms():
             if counter > 1:
                 print("You have already defeated this challenge.")
             else:
-                riddle()
+                riddle_wrong=riddle()
+                if riddle_wrong==True:
+                    print('''You feel a phantasmal force push you over and you are quickly
+consumed by a swarm of rats.
+                            GAME OVER''')
+                    return riddle_wrong
         counter = 0
         if player_location == 'library':
             counter =+ 1
             if counter > 1:
                 print("You have already defeated this challenge.")
             else:
-                riddle()
+                riddle_wrong=riddle()
+                if riddle_wrong==True:
+                    print('''You head a loud crack and piles of books fall on you.
+GAME OVER''')
+                    return riddle_wrong
         counter = 0
         if player_location == 'observatory':
             counter =+ 1
             if counter > 1:
                 print("You have already defeated this challenge.")
             else:
-                riddle()
-
+                riddle_wrong=riddle()
+                if riddle_wrong == True:
+                    print('''In a freak accident a meteor hits the observatory.
+GAME OVER''')
+                    return riddle_wrong
 ################################################################################
 #END OF GAME
-
+#initializing game over variables
 game_over = False
-player=character_choose()
+monsters = False
+riddle_wrong = False
 
-while game_over == False:
+player=character_choose()
+sleep(12)
+print('''You are walking along a winding path in the woods and hear a clamor
+to the west. You walk in its direction and find a mansion. You realize
+you have finally found Alabastor Manor. For all the rumors, it looks
+warm and friendly, but you know it to be neither of those things. You
+swallow your fear and walk up to the front door.''')
+sleep(10)
+
+while game_over !=True  and monsters != True and riddle_wrong != True :
     characterinterface()
-    riddle_rooms()
-    monster_rooms()
+    riddle_wrong = riddle_rooms(riddle_wrong)
+    if riddle_wrong == True:
+        break
+    monsters = monster_rooms()
+    if monsters == True:
+        break
     print_location_description()
     inventory_add()
     room_rejection()
     player_location = ask_user_which_exit(places[player_location]['exits'])
-
-while game_over == True:
-    print("You have completed the game! Thank you!")
-
-#def game_over():
- #   print("You have completed the game! Thank you!")
-
-
-
-
-
-    
-
-    
