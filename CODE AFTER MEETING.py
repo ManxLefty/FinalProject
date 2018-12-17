@@ -692,7 +692,7 @@ def riddle():
 ################################################################################
 #MONSTER AND RIDDLE ROOMS
 def monster_rooms():
-    if player_location in ['entrancehall','crypt','parlor','stairssouth','cryptcoffin4','tower']:
+    if player_location == 'entrancehall' or 'crypt' or 'parlor' or 'stairssouth' 'cryptcoffin4' or 'tower':
         if player_location == 'entrancehall':
             dustbunny = DustBunny('room')
             player.battle(dustbunny)
@@ -714,7 +714,11 @@ def monster_rooms():
             if player.current_hp<=0:
                     return True
             if armor.current_hp<=0:
-                    return True
+                print('''The Suit of Armor crashes to the ground. A gust of wind almost pushes you over
+as you hear all the doors swing wide open. It appears that the armor has been
+the guardian of the manor for quite some time. You make your way back downstairs
+and make your way to the front door. You leave the manor victorious.''')
+                return True
                 
 def riddle_rooms(riddle_wrong):
     riddle_wrong = riddle_wrong
