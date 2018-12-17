@@ -4,9 +4,6 @@
 
 #ISSUES: 1. how to end the game 2. invalid room input calls empty rooms 
 
-
-
-
 import random
 from time import sleep
 places = {}
@@ -579,7 +576,7 @@ def inventory_add():
 #find batteries
     if player_location == 'outpowerbox':
         item = 'batteries'
-         if item in inventory:
+        if item in inventory:
             print('You already have this item.')
         else:
             inventory.append('batteries')
@@ -587,7 +584,7 @@ def inventory_add():
 #find key
     if player_location == 'librarybook3':
         item = 'key'
-         if item in inventory:
+        if item in inventory:
             print('You already have this item.')
         else:
             inventory.append('key')
