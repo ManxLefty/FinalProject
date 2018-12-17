@@ -22,7 +22,7 @@ def opening_graphic():
     #title
     titleImage = Image(Point(300,300),"escapefromalabastormanor.png")
     titleImage.draw(win)
-    sleep(1)
+    sleep(2)
     win.close()
 
     #create a window
@@ -31,7 +31,9 @@ def opening_graphic():
     #juicebox  
     juiceboxImage = Image(Point(300,300),"juicebox.png")
     juiceboxImage.draw(win)
-    sleep(1)
+    juiceboxText=Text(Point(300,50),'Timmy a.k.a. \'Juicebox\'')
+    juiceboxText.draw(win)
+    sleep(2)
     win.close()
 
     #create a window
@@ -40,7 +42,9 @@ def opening_graphic():
     #desdemona
     desdemonaImage = Image(Point(300,300),"desdemona.png")
     desdemonaImage.draw(win)
-    sleep(1)
+    desdemonaText=Text(Point(300,50), 'Desdemona Crowe')
+    desdemonaText.draw(win)
+    sleep(2)
     win.close()
 
     #create a window
@@ -49,7 +53,9 @@ def opening_graphic():
     #salem
     salemImage = Image(Point(300,300),"salem.png")
     salemImage.draw(win)
-    sleep(1)
+    salemText=Text(Point(300,50),'Salem Bones')
+    salemText.draw(win)
+    sleep(2)
     win.close()
 
     #create a window
@@ -764,13 +770,13 @@ riddle_wrong = False
 
 opening_graphic()
 player=character_choose()
-#sleep(12)
+sleep(12)
 print('''You are walking along a winding path in the woods and hear a clamor
 to the west. You walk in its direction and find a mansion. You realize
 you have finally found Alabastor Manor. For all the rumors, it looks
 warm and friendly, but you know it to be neither of those things. You
 swallow your fear and walk up to the front door.''')
-#sleep(10)
+sleep(10)
 
 while game_over !=True and monsters != True and riddle_wrong != True :
     characterinterface()
