@@ -4,6 +4,9 @@
 
 #ISSUES: 1. how to end the game 2. invalid room input calls empty rooms 
 
+
+
+
 import random
 from time import sleep
 places = {}
@@ -22,7 +25,7 @@ def opening_graphic():
     #title
     titleImage = Image(Point(300,300),"escapefromalabastormanor.png")
     titleImage.draw(win)
-    sleep(2)
+    sleep(1)
     win.close()
 
     #create a window
@@ -31,9 +34,7 @@ def opening_graphic():
     #juicebox  
     juiceboxImage = Image(Point(300,300),"juicebox.png")
     juiceboxImage.draw(win)
-    juiceboxText=Text(Point(300,50),'Timmy a.k.a. \'Juicebox\'')
-    juiceboxText.draw(win)
-    sleep(2)
+    sleep(1)
     win.close()
 
     #create a window
@@ -42,9 +43,7 @@ def opening_graphic():
     #desdemona
     desdemonaImage = Image(Point(300,300),"desdemona.png")
     desdemonaImage.draw(win)
-    desdemonaText=Text(Point(300,50), 'Desdemona Crowe')
-    desdemonaText.draw(win)
-    sleep(2)
+    sleep(1)
     win.close()
 
     #create a window
@@ -53,9 +52,7 @@ def opening_graphic():
     #salem
     salemImage = Image(Point(300,300),"salem.png")
     salemImage.draw(win)
-    salemText=Text(Point(300,50),'Salem Bones')
-    salemText.draw(win)
-    sleep(2)
+    sleep(1)
     win.close()
 
     #create a window
@@ -111,8 +108,13 @@ class Player:
                     print('You have defeated',opponent.name)
                     print()#add a line of space so that it is easier to read terminal
                 elif opponent.current_hp <= 0 and opponent.name == 'Enchanted Suit of Armor':
-                    print("You defeated the Boss Monster!")
-                    print("You have won the game!")
+                    print('''The armor combusts into glimmering dust and floats gently to the floor.
+A gust of wind almost pushes you over as you hear all the doors swing wide open.
+It appears that the armor has been the guardian of the manor for quite some time.
+You make your way back downstairs and make your way to the front door. You leave the manor victorious.
+You, great hero, have proven your strength and virtue in escaping this spooky mansion.''')
+                    print()
+                    print("GAME OVER")
                     game_over = True
                     return game_over 
                 elif opponent.current_hp >0:
@@ -226,7 +228,7 @@ class DustBunny(Monster):
         super().__init__(room)
         self.name = 'Dust Bunny'
         self.attack_power = 10
-        self.max_hp = random.randint(0,10)
+        self.max_hp = random.randint(1,10)
         self.current_hp = self.max_hp
         
 # Easy monster
@@ -277,7 +279,7 @@ def character_choose():
 
     try: 
 
-        choice = input("Type 'A', 'B', 'C', or 'HELP' and hit enter: ").upper()
+        choice = input("Choose 'A', 'B', 'C', or 'HELP' if you're not sure what to do: ").upper()
         while choice:    
             if choice == "A":
                   player = Desdemona(Player)
@@ -295,21 +297,21 @@ def character_choose():
                   print('''Welcome to the game! Choose a character by typing the corresponding
 letter and hitting enter. Once you choose a character, you will be immersed
 in the world of 'ESCAPE FROM ALABASTOR MANOR,' where you will be faced with
-many life-and-death decisions.\n
-NAVIGATION\n
+many life-and-death decisions.
+NAVIGATION
 When navigating through the mansion, a list of
 exits from the room you are currently in will appear in a numbered list. Type
 the number of the exit you would like to go through and hit enter. Some rooms
 require you to answer a riddle to move into the room, and others put you
-against an enemy that calls the mansion home.\n
-RIDDLES\n
+against an enemy that calls the mansion home.
+RIDDLES
 Type your guess and hit enter.Beware: you only have 3 tries per riddle to
-get it right, otherwise it's game over!\n
-BATTLING\n
+get it right, otherwise it's game over!
+BATTLING
 You have the choice to attack your opponent or defend against your opponent's
 attack. If you attack, you deal a random fraction of your character's Attack
 Power in damage. If you defend, you regain a random fraction of your
-character's Defensive Power back as HP.\n
+character's Defensive Power back as HP.
 Attack = Deal damage
 Defend = Heal yourself''')
                   break
@@ -371,7 +373,7 @@ make_place('pantry', 'Nothing but moldy food and a couple of mouse traps.')
 make_place('pantrylook', 'Nothing of interest.')
 make_place('closet', 'Mothballs fly around the closet.')
 make_place('closetlook', 'Nothing of interest.')
-make_place('livingroom', 'I guess you can\'t do much living in this room if you are dead. Haha. Get it? Because it is a living room?')
+make_place('livingroom', 'I guess you can\'t do much living in this room if you are dead. Haha. Get it? Because it\'s a living room?')
 make_place('livingroomlook', 'Nothing of interest.')
 make_place('dininghall', 'The table is already preset.')
 make_place('dininghalllook', 'Nothing of interest.')
@@ -379,11 +381,11 @@ make_place('kitchen', 'Why does it smell like food?')
 make_place('kitchenlook', 'The oven is on and some of the drawers are open.')
 make_place('kitchendrawer1', 'Empty.')
 make_place('kitchendrawer2', 'There are matches that might be useful.')
-make_place('kitchendrawer3', 'What is in this drawer? A knife! No!')
+make_place('kitchendrawer3', 'What\'s in this drawer? A knife! No!')
 make_place('kitchenoven', 'Yum. I love eating rocks for dinner.')
 make_place('stairsnorth','The stairs creak with every step I take.')
 make_place('stairssouth','The stairs are covered with dust and the air is filled with cobwebs.')
-make_place('garden', 'It is probably really pretty out here, when it is not the middle of the winter.')
+make_place('garden', 'It\'s probably really pretty out here, when it\'s not the middle of the winter.')
 make_place('gardenlook', 'Nothing of interest.')
 make_place('outpowerbox', 'Someone left some batteries!')
 
@@ -398,11 +400,11 @@ make_place('cellarbottle3', 'This one looks like it was opened recently...')
 make_place('cellarbottle4', 'What is the harm in taking one?')
 make_place('crypt', ' People are supposed to live here!')  
 make_place('cryptlook', 'How many people are still in this house?')
-make_place('cryptcoffin1', 'Dr. Lawrence Alabaster 1885')
+make_place('cryptcoffin1', 'Dr. Lawrence Alabastor 1885')
 make_place('cryptcoffin2', 'Countess Katrina Zatara 1912')
-make_place('cryptcoffin3', 'Doris Alabaster 1878')
-make_place('cryptcoffin4', 'Ronald Alabaster 1912')
-make_place('furnaceroom', 'It is hot in here, I hope nothing blows up.')
+make_place('cryptcoffin3', 'Doris Alabastor 1878')
+make_place('cryptcoffin4', 'Ronald Alabastor 1912')
+make_place('furnaceroom', 'It\'s hot in here. I hope nothing blows up.')
 make_place('furnaceroomlook', 'Nothing of interest.')
 
 #2ND FLOOR
@@ -422,8 +424,8 @@ make_place('tower', 'Wow, I feel like royalty.')
 make_place('towerlook', 'There are a lot of spider webs in here…')
 make_place('observatory', 'This room is cluttered but it looks cozy.')
 make_place('observatorylook', 'Oh! A Telescope!')
-make_place('telescope', 'Look! It is Mars! ')
-make_place('rooftop', 'Don’t look down. Don’t look down.')
+make_place('telescope', 'Look! It\'s Mars! ')
+make_place('rooftop', 'Don\’t look down. Don\’t look down.')
 make_place('rooftoplook', 'Someone is waiting for you.')
 
 ###############################################################################################
@@ -442,12 +444,12 @@ make_exit('entrancehall', 'dininghall', 'Go into the dining room.')
 make_exit('entrancehall', 'kitchen', 'Go into the kitchen.')
 make_exit('entrancehall', 'entrancehalllook', 'Look around.')
 make_exit('entrancehalllook', 'entrancehall', 'I\'m done looking around.')
-make_exit('pantry', 'entrancehall', 'Go back to into the foyer.')
+make_exit('pantry', 'entrancehall', 'Go back into the foyer.')
 make_exit('pantry', 'pantrylook', 'Look around.')
 make_exit('pantrylook', 'pantry', 'I\'m done looking around.')
-make_exit('closet', 'entrancehall', 'Go back to into the foyer.')
+make_exit('closet', 'entrancehall', 'Go back to into the foyer. In other words, come out of the closet. ;)')
 make_exit('closet', 'closetlook', 'Look around.')
-make_exit('closetlook', 'closet', 'I\'m done looking around. In other words, come out of the closet ;)')
+make_exit('closetlook', 'closet', 'I\'m done looking around.')
 make_exit('livingroom', 'entrancehall', 'Go into the foyer.')
 make_exit('livingroom', 'garden', 'Go into the garden.')
 make_exit('livingroom', 'stairsnorth', 'Go up the stairs.')
@@ -502,6 +504,7 @@ make_exit('librarybook3', 'librarylook', 'Look at something else.')
 make_exit('hallway2nd', 'library', 'Go into the library.')
 make_exit('hallway2nd', 'study', 'Go into the study.')
 make_exit('hallway2nd', 'parlor', 'Go into the parlor.')
+
 #BASEMENT
 make_exit('basementlanding', 'kitchen', 'Go back upstairs.')
 make_exit('basementlanding', 'cellar', 'Go into the cellar.')
@@ -559,9 +562,9 @@ def inventory_add():
             print('You already have this item.')
         else:
             inventory.append('matches')
-            print('You have found a matches!')
+            print('You have found matches!')
 #find winebottle
-    if player_location == 'cellerbottle4':
+    if player_location == 'cellarbottle4':
         item = 'wine bottle'
         if item in inventory:
             print('You already have this item.')
@@ -603,19 +606,18 @@ def ask_user_which_exit(exits,inventory):
             print(i+1, exits[i]['description'])
         choice = eval(input('Choose:'))
         if exits[choice-1]['target'] == 'basementlanding' and ('batteries' not in inventory or 'flash light' not in inventory):
-            print('''It\'s too dark to see anything. Maybe I should find a flashlight
-and some batteries...''')
+            print('You can\'t see that far.')
             return ask_user_which_exit(exits,inventory)
         if exits[choice-1]['target'] == 'tower' and ('key' not in inventory):
-            print('It\'s locked. I should find a key.')
+            print('You need a key.')
             return ask_user_which_exit(exits,inventory)
         if exits[choice-1]['target'] == 'observatory' and ('key' not in inventory):
-            print('It\'s locked. I should find a key.')
+            print('You need a key.')
             return ask_user_which_exit(exits,inventory)
         return exits[choice-1]['target']
         #player_location = ['target']
         
-
+    #exception if player enters the wrong type of input
     except TypeError:
         print()
         print("Not a valid input. Try again.")
@@ -649,7 +651,7 @@ and some batteries...''')
 
 def print_location_description():
 
-     
+#show the player where they are and where they can go     
     #print(player_location)
     room = places[player_location]
     print(room['description'])
@@ -662,33 +664,40 @@ def print_location_description():
 
 #RIDDLE
 def riddle():
+    # Riddle formation
     complete_riddle = {'riddle':'answer'}
+    # Riddle list
     riddles = {"What word begins and ends in E but only has one letter?" : "envelope",
                "I’m tall when I’m young and I’m short when I’m old. What am I?" : "candle",
                "What has hands but can’t clap?" : "clock",
                "What starts with the letter T, is full of T and ends with the letter T?" : "teapot",
                "What goes up but never goes down?" : "age",
                "What has one eye but cannot see?" : "needle",
-               "The more you take, the more you leave behind, what am I?" : "footprints",
-               "What is so delicate that saying its name breaks it?" : "silcence",
+               "The more you take, the more you leave behind. What am I?" : "footprints",
+               "What is so delicate that saying its name breaks it?" : "silence",
                "Where there is light is the only place I can live. Yet if light shines on me I die." : "shadow"}
+    # Choose random riddle and its answer
     riddle = random.choice(list(riddles.keys()))
     answer = riddles[riddle]
-    print ("Riddle Rules: You have 3 tries to solve this riddle, all solutions are one word, enter answers in lowercase")
+    print ("Riddle Rules: You have 3 tries to solve this riddle. All solutions are one word. Enter answers in lowercase.")
     print()
     print ("Here is your riddle: ", riddle)
     print()
     user_answer = input("Your answer: ")
 
+    # Riddle response system
     counter = 0
-    while user_answer: 
+    while user_answer:
+        # Correct response immediately
         if user_answer == answer:
             print ("You may continue...")
             break
+        # Allow more attempts
         elif user_answer != answer and counter < 2:
             print("Wrong Answer, try again.")
             user_answer = input("Your answer: ")
             counter += 1
+        # Too many failed attempts! Sends to GAME OVER.
         elif user_answer != answer and counter >= 2:
             print("Wrong answer and you are out of tries... \n")
             return True
@@ -696,7 +705,7 @@ def riddle():
 ################################################################################
 #MONSTER AND RIDDLE ROOMS
 def monster_rooms():
-    if player_location == 'entrancehall' or 'crypt' or 'parlor' or 'stairssouth' 'cryptcoffin4' or 'tower':
+    if player_location in ['entrancehall','crypt','parlor','stairssouth','cryptcoffin4','tower']:
         if player_location == 'entrancehall':
             dustbunny = DustBunny('room')
             player.battle(dustbunny)
@@ -718,11 +727,7 @@ def monster_rooms():
             if player.current_hp<=0:
                     return True
             if armor.current_hp<=0:
-                print('''The Suit of Armor crashes to the ground. A gust of wind almost pushes you over
-as you hear all the doors swing wide open. It appears that the armor has been
-the guardian of the manor for quite some time. You make your way back downstairs
-and make your way to the front door. You leave the manor victorious.''')
-                return True
+                    return True
                 
 def riddle_rooms(riddle_wrong):
     riddle_wrong = riddle_wrong
@@ -747,7 +752,7 @@ consumed by a swarm of rats.
             else:
                 riddle_wrong=riddle()
                 if riddle_wrong==True:
-                    print('''You head a loud crack and piles of books fall on you.
+                    print('''You hear a loud crack and piles of books fall on you.
 GAME OVER''')
                     return riddle_wrong
         counter = 0
@@ -768,7 +773,7 @@ game_over = False
 monsters = False
 riddle_wrong = False
 
-opening_graphic()
+# Run choose character and begin game
 player=character_choose()
 sleep(12)
 print('''You are walking along a winding path in the woods and hear a clamor
@@ -788,5 +793,4 @@ while game_over !=True and monsters != True and riddle_wrong != True :
         break
     print_location_description()
     inventory_add()
-    #room_rejection()
     player_location = ask_user_which_exit(places[player_location]['exits'], inventory)
