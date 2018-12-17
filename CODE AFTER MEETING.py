@@ -206,7 +206,6 @@ class Monster:
         player.current_hp -=  int(random.randint(1,self.attack_power) / (0.5*player.defensive_power))
 
 ################################################################################
-
 # Creating General Monster class
 class Monster:
     def __init__(self, room):
@@ -361,7 +360,6 @@ def make_exit(from_room, to_room, description):
 
 ################################################################################
 #LIST OF ROOMS
-
 #OUTSIDE
 make_place('frontlawn','I stare up at the creaky house.')
 make_place('frontlawnlook','This street is dead and there is no one around. I wonder who lives in this house.')
@@ -428,7 +426,7 @@ make_place('telescope', 'Look! It is Mars! ')
 make_place('rooftop', 'Don’t look down. Don’t look down.')
 make_place('rooftoplook', 'Someone is waiting for you.')
 
-
+###############################################################################################
 #LISTS OF EXITS
 
 #OUTSIDE
@@ -557,19 +555,19 @@ def inventory_add():
 #find matches
     if player_location == 'kitchendrawer2':
         item = 'matches'
-        if item not in inventory:
-            print('You have found matches!')
-            inventory.append('matches')
-        else:
+        if item in inventory:
             print('You already have this item.')
+        else:
+            inventory.append('matches')
+            print('You have found a matches!')
 #find winebottle
     if player_location == 'cellerbottle4':
         item = 'wine bottle'
-        if item not in inventory:
-            print('You have found a wine bottle!')
-            inventory.append('matches')
-        else:
+        if item in inventory:
             print('You already have this item.')
+        else:
+            inventory.append('wine bottle')
+            print('You have found a wine bottle!')
 #find flash light
     if player_location == 'closet':
         item = 'flash light'
@@ -581,19 +579,19 @@ def inventory_add():
 #find batteries
     if player_location == 'outpowerbox':
         item = 'batteries'
-        if item not in inventory:
-            print('You have found batteries!')
-            inventory.append('batteries')
-        else:
+         if item in inventory:
             print('You already have this item.')
+        else:
+            inventory.append('batteries')
+            print('You have found some batteries!')
 #find key
     if player_location == 'librarybook3':
         item = 'key'
-        if item not in inventory:
-            print('You have found a key!')
-            inventory.append('key')
-        else:
+         if item in inventory:
             print('You already have this item.')
+        else:
+            inventory.append('key')
+            print('You have found a key!')
 
 ################################################################################
 #GAMEPLAY - EXIT AND LOCATION DESCRIPTION
