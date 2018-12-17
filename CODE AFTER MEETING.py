@@ -271,7 +271,7 @@ def character_choose():
 
     try: 
 
-        choice = input("Choose 'A', 'B', 'C', or 'HELP' if you're not sure what to do: ").upper()
+        choice = input("Type 'A', 'B', 'C', or 'HELP' and hit enter: ").upper()
         while choice:    
             if choice == "A":
                   player = Desdemona(Player)
@@ -289,24 +289,21 @@ def character_choose():
                   print('''Welcome to the game! Choose a character by typing the corresponding
 letter and hitting enter. Once you choose a character, you will be immersed
 in the world of 'ESCAPE FROM ALABASTOR MANOR,' where you will be faced with
-many life-and-death decisions.
-
-NAVIGATION
+many life-and-death decisions.\n
+NAVIGATION\n
 When navigating through the mansion, a list of
 exits from the room you are currently in will appear in a numbered list. Type
 the number of the exit you would like to go through and hit enter. Some rooms
 require you to answer a riddle to move into the room, and others put you
-against an enemy that calls the mansion home.
-
-RIDDLES
+against an enemy that calls the mansion home.\n
+RIDDLES\n
 Type your guess and hit enter.Beware: you only have 3 tries per riddle to
-get it right, otherwise it's game over!
-
-BATTLING
+get it right, otherwise it's game over!\n
+BATTLING\n
 You have the choice to attack your opponent or defend against your opponent's
 attack. If you attack, you deal a random fraction of your character's Attack
 Power in damage. If you defend, you regain a random fraction of your
-character's Defensive Power back as HP.
+character's Defensive Power back as HP.\n
 Attack = Deal damage
 Defend = Heal yourself''')
                   break
@@ -600,13 +597,14 @@ def ask_user_which_exit(exits,inventory):
             print(i+1, exits[i]['description'])
         choice = eval(input('Choose:'))
         if exits[choice-1]['target'] == 'basementlanding' and ('batteries' not in inventory or 'flash light' not in inventory):
-            print('You can not see that far.')
+            print('''It\'s too dark to see anything. Maybe I should find a flashlight
+and some batteries...''')
             return ask_user_which_exit(exits,inventory)
         if exits[choice-1]['target'] == 'tower' and ('key' not in inventory):
-            print('You need a key.')
+            print('It\'s locked. I should find a key.')
             return ask_user_which_exit(exits,inventory)
         if exits[choice-1]['target'] == 'observatory' and ('key' not in inventory):
-            print('You need a key.')
+            print('It\'s locked. I should find a key.')
             return ask_user_which_exit(exits,inventory)
         return exits[choice-1]['target']
         #player_location = ['target']
@@ -764,6 +762,7 @@ game_over = False
 monsters = False
 riddle_wrong = False
 
+opening_graphic()
 player=character_choose()
 #sleep(12)
 print('''You are walking along a winding path in the woods and hear a clamor
