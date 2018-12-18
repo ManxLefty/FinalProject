@@ -211,16 +211,6 @@ she cared for when they were young.''' )
         self.attack_power = 30
         self.defensive_power = 30
 
-# Creating General Monster class
-class Monster:
-    def __init__(self, room):
-    #'''Initializing Monster object''''
-        self.room = room
-    def attack(self, player):
-    #'''Allows monster to attack the Player'''
-        self.player = player
-        player.current_hp -=  int(random.randint(1,self.attack_power) / (0.5*player.defensive_power))
-
 ################################################################################
 # Creating General Monster class
 class Monster:
