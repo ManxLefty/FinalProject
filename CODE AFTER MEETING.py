@@ -1,17 +1,15 @@
-#NOTES: add the sleep back in
-#change the armor power back
-#add in the opening graphic
-
-#ISSUES: 1. how to end the game 2. invalid room input calls empty rooms 
-
-
+#-------------------------------------------------------------------------------#
+#     Group: Selah Finkelstein, Maura McGowan, Iver Warburton, Claire Picken    #
+#   Project: Escape from Alabastor Manor                                        #
+#     Class: CSC 111: Introduction to Computer Science through Programming      #
+#-------------------------------------------------------------------------------#
 
 
-import random
-from time import sleep
-places = {}
+import random               #to randomly generate hp of monsters and which riddle the user must answer
+from time import sleep      #add in time delays between functions so that the user has time to read on the interface
+places = {}             
 inventory = []
-from graphics import *
+from graphics import *      #import all of graphics to support the openning graphic of the game
 
 def opening_graphic():
     print("Welcome to Alabastor Manor")
@@ -22,47 +20,55 @@ def opening_graphic():
     #create a window
     win = GraphWin("Escape from Alabastor Manor", WIDTH, HEIGHT)
 
-    #title
+    #show title of the game image on the window
     titleImage = Image(Point(300,300),"escapefromalabastormanor.png")
     titleImage.draw(win)
-    sleep(1)
+    sleep(1) #wait one second
+    
+    #close window
     win.close()
 
     #create a window
     win = GraphWin("Escape from Alabastor Manor", WIDTH, HEIGHT)
     
-    #juicebox  
+    #show juicebox image on the window  
     juiceboxImage = Image(Point(300,300),"juicebox.png")
     juiceboxImage.draw(win)
-    sleep(1)
+    sleep(1) #wait one second
+    
+    #close window
     win.close()
 
     #create a window
     win = GraphWin("Escape from Alabastor Manor", WIDTH, HEIGHT)
 
-    #desdemona
+    #show desdemona image on the window 
     desdemonaImage = Image(Point(300,300),"desdemona.png")
     desdemonaImage.draw(win)
-    sleep(1)
+    sleep(1) #wait one second
+    
+    #close window
     win.close()
 
     #create a window
     win = GraphWin("Escape from Alabastor Manor", WIDTH, HEIGHT)
 
-    #salem
+    #show salem image on the window
     salemImage = Image(Point(300,300),"salem.png")
     salemImage.draw(win)
-    sleep(1)
+    sleep(1) #wait one second
+    
+    #close window
     win.close()
 
     #create a window
     win = GraphWin("Escape from Alabastor Manor", WIDTH, HEIGHT)
 
-    #Manor Map
+    #show Manor Map image on the window
     ManorMapImage = Image(Point(300,300),"ManorMap.png")
     ManorMapImage.draw(win)
 
-#opening_graphic()
+opening_graphic() #call opening graphic
 
 ################################################################################
 #THIS IS WHERE THE PLAYER STARTS
@@ -77,36 +83,38 @@ class Player:
     def attack(self,opponent):
         '''Allows the player to attack an opponent'''
         self.opponent = opponent
+        #sets opponents hp to a random number between 0 and the player's attack power 
         opponent.current_hp -=  int(0.5*random.randint(0,self.attack_power))
     
     def defend(self,opponent):
         '''Allows the player to defend against an opponent'''
-    
         self.opponent = opponent
-        #self.current_hp-=int(random.randint(1,opponent.attack_power)/self.defensive_power)
+        #when the hp of the hero is below max hp, add 10% of a number between 0 and max defensive power back to hp 
         if self.current_hp!=self.max_hp:
             self.current_hp += int(0.1*random.randint(0,self.defensive_power))
-
-            
 
     def battle(self,opponent):
         '''Creates a battle function that allows the player to interact with an opponent.
         The opponent will automatically attack the Player. The Player can choose to attack or defend.
         Defending allows you to heal a random amount of health.'''
-
+        
+        #presents a monster to fight to the user interface 
         print('A wild',opponent.name,'appeared')
         
         while self.current_hp>0 and opponent.current_hp>0:
             action = input('Enter \'A\' for attack or \'D\' for defend or \'HELP\' if you need help\n').upper()
             print('')
+            #hero attacks 
             if action == 'A':
                 print('You attack',opponent.name)
                 self.attack(opponent)
                 print(opponent.name,'HP:', opponent.current_hp,'/',opponent.max_hp,'\n')
                 sleep(0.5)
+                #if the hero defeats the monster 
                 if opponent.current_hp<=0:
                     print('You have defeated',opponent.name)
                     print()#add a line of space so that it is easier to read terminal
+                #when the hero defeats the Enchanted Suit of Armor 
                 elif opponent.current_hp <= 0 and opponent.name == 'Enchanted Suit of Armor':
                     print('''The armor combusts into glimmering dust and floats gently to the floor.
 A gust of wind almost pushes you over as you hear all the doors swing wide open.
@@ -122,13 +130,13 @@ You, great hero, have proven your strength and virtue in escaping this spooky ma
                     sleep(0.5)
                     print(opponent.name,'attacked you!')
                     print(self.name,'HP:', self.current_hp,'/',self.max_hp,'\n')
-                    #sleep(0.5)
-        
+                    sleep(0.5)
+            #hero defends 
             elif action =='D':
                 self.defend(opponent)
                 print('You have defended against',opponent.name)
                 print(self.name,'HP:', self.current_hp,'/',self.max_hp,'\n')
-
+            #if the user asks for help
             elif action =='HELP':
                 print('''You are now in combat. Your objective is to attack your opponent
 until their HP (Hit Points) drop to zero. Be careful about your own
@@ -148,7 +156,7 @@ character's stats \n''')
             return game_over 
 
 
-# PLAYER SUBCLASS    
+# PLAYER SUBCLASS - introduces different character options for the user 
 class Juicebox(Player):
     def __init__(self, name):
         super().__init__(name)
@@ -160,6 +168,7 @@ sent him with a flashlight, thank goodness. He hopes it will come
 in handy later. He can't wait for all the other kids to ask him
 about how he escaped Alabastor Manor... he just hopes he can make
 it out.5''')
+        #Juicebox stats 
         self.max_hp = 50
         self.current_hp = 50
         self.attack_power = 20
@@ -179,6 +188,7 @@ id. Now, with
 wand in hand and Cliffton hanging on for dear life, they feel
 strong enough to defeat the magic that has been in control of the
 manor all these years.''')
+        #Salem stats 
         self.max_hp = 75
         self.current_hp = 75
         self.attack_power = 20
@@ -195,6 +205,7 @@ years ago, and she only recently decided to revisit her home
 for so many years, even if its inhabitants are long gone.
 At least she can reconvene with the ghosts of all the people
 she cared for when they were young.''' )
+        #Desdemona stats 
         self.max_hp = 40
         self.current_hp = 40
         self.attack_power = 30
@@ -220,6 +231,8 @@ class Monster:
     #'''Allows monster to attack the Player'''
         self.player = player
         player.current_hp -=  int(random.randint(1,self.attack_power) / (0.5*player.defensive_power))
+        
+#why is the monster class coded twice? Can we remove one of them?
 
 #MONSTER SUBCLASSES
 # Super Easy monster
@@ -237,7 +250,7 @@ class Ghost(Monster):
         super().__init__(room)
         self.name = 'Ghost'
         self.attack_power=20
-        self.max_hp = random.randint(0,10)
+        self.max_hp = random.randint(1,10)
         self.current_hp = self.max_hp
         
 # Medium monster
@@ -344,7 +357,6 @@ def characterinterface():
     print('-'*31)
     print('Location:', player_location)
     print('Inventory:', inventory)
-    #I don't think we will have time to add the inventory code
     print('-'*31)
 
 ################################################################################
@@ -358,15 +370,13 @@ def make_place(name,description):
 def make_exit(from_room, to_room, description):
     places[from_room]['exits'].append({'target': to_room,
                                        'description': description})
-
-
 ################################################################################
 #LIST OF ROOMS
-#OUTSIDE
+#OUTSIDE ON THE LAWN 
 make_place('frontlawn','I stare up at the creaky house.')
 make_place('frontlawnlook','This street is dead and there is no one around. I wonder who lives in this house.')
 
-#GROUND FLOOR
+#GROUND FLOOR OF THE HOUSE 
 make_place('entrancehall', 'The door is locked and I don\'t have way out.')
 make_place('entrancehalllook', 'The furniture is very out dated.')
 make_place('pantry', 'Nothing but moldy food and a couple of mouse traps.')
@@ -605,9 +615,12 @@ def ask_user_which_exit(exits,inventory):
         for i in range(len(exits)):
             print(i+1, exits[i]['description'])
         choice = eval(input('Choose:'))
+        #checks to see if the player has batteries and the flash light in the inventory
+        #both batteries and flash light needed to enter the basement 
         if exits[choice-1]['target'] == 'basementlanding' and ('batteries' not in inventory or 'flash light' not in inventory):
             print('You can\'t see that far.')
             return ask_user_which_exit(exits,inventory)
+        #checks to see if the player has the key - key needed to enter the tower 
         if exits[choice-1]['target'] == 'tower' and ('key' not in inventory):
             print('You need a key.')
             return ask_user_which_exit(exits,inventory)
@@ -615,7 +628,6 @@ def ask_user_which_exit(exits,inventory):
             print('You need a key.')
             return ask_user_which_exit(exits,inventory)
         return exits[choice-1]['target']
-        #player_location = ['target']
         
     #exception if player enters the wrong type of input
     except TypeError:
@@ -652,14 +664,9 @@ def ask_user_which_exit(exits,inventory):
 def print_location_description():
 
 #show the player where they are and where they can go     
-    #print(player_location)
     room = places[player_location]
     print(room['description'])
     exits = room['exits']
-    #print(exits)
-
-
-    #gives a KeyError: None - not sure how to fix this one 
     
 
 #RIDDLE
@@ -679,10 +686,12 @@ def riddle():
     # Choose random riddle and its answer
     riddle = random.choice(list(riddles.keys()))
     answer = riddles[riddle]
+    #present player with a riddle 
     print ("Riddle Rules: You have 3 tries to solve this riddle. All solutions are one word. Enter answers in lowercase.")
     print()
     print ("Here is your riddle: ", riddle)
     print()
+    #ask the user for an answer 
     user_answer = input("Your answer: ")
 
     # Riddle response system
@@ -692,18 +701,19 @@ def riddle():
         if user_answer == answer:
             print ("You may continue...")
             break
-        # Allow more attempts
+        # Attempts 2 and 3 
         elif user_answer != answer and counter < 2:
             print("Wrong Answer, try again.")
             user_answer = input("Your answer: ")
             counter += 1
-        # Too many failed attempts! Sends to GAME OVER.
+        # Three failed attempts! Sends to GAME OVER.
         elif user_answer != answer and counter >= 2:
             print("Wrong answer and you are out of tries... \n")
             return True
 
 ################################################################################
 #MONSTER AND RIDDLE ROOMS
+#determines which monsters are in which rooms of the house 
 def monster_rooms():
     if player_location in ['entrancehall','crypt','parlor','stairssouth','cryptcoffin4','tower']:
         if player_location == 'entrancehall':
@@ -728,7 +738,8 @@ def monster_rooms():
                     return True
             if armor.current_hp<=0:
                     return True
-                
+#if the user fails to answer a riddle correctly, the game ends, but we present the user with an
+    #ending that is unique to the room where the game ends. 
 def riddle_rooms(riddle_wrong):
     riddle_wrong = riddle_wrong
     if player_location == 'cellar' or 'library' or 'observatory':
