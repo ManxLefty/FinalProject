@@ -221,8 +221,6 @@ class Monster:
     #'''Allows monster to attack the Player'''
         self.player = player
         player.current_hp -=  int(random.randint(1,self.attack_power) / (0.5*player.defensive_power))
-        
-#why is the monster class coded twice? Can we remove one of them?
 
 #MONSTER SUBCLASSES
 # Super Easy monster
