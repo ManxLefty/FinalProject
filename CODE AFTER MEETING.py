@@ -725,7 +725,11 @@ def monster_rooms():
             if player.current_hp<=0:
                     return True
             if armor.current_hp<=0:
-                    return True
+                print('''The Suit of Armor crashes to the ground. A gust of wind almost pushes you over
+as you hear all the doors swing wide open. It appears that the armor has been
+the guardian of the manor for quite some time. You make your way back downstairs
+and make your way to the front door. You leave the manor victorious.''')
+                return True
 #if the user fails to answer a riddle correctly, the game ends, but we present the user with an
     #ending that is unique to the room where the game ends. 
 def riddle_rooms(riddle_wrong):
