@@ -797,3 +797,10 @@ while game_over !=True and monsters != True and riddle_wrong != True :
     print_location_description()
     inventory_add()
     player_location = ask_user_which_exit(places[player_location]['exits'], inventory)
+
+#-------------------------------------------------------------------------------#
+#REFERENCES
+#John Foley's Lecture 21: Spooky.py: Coding Workshop
+#Jordan Crouser's office hours
+#Slow Pokemon assignment
+#-------------------------------------------------------------------------------#
